@@ -1,53 +1,43 @@
 var { app, BrowserWindow, Menu, MenuItem, Tray } = require('electron')
 var path = require('path')
 
-var NpmFollower = require('./npm-follower')
-
-var window
-
 app.on('ready', () => {
-  createWindow()
-  //createTrayIcon()
-
-  NpmFollower(update => {
-    console.log('npm update');
-    console.log(update)
-    window.webContents.send('npm-update', update)
-  })
+  let browserWindow = createWindow()
+  //createTrayIcon(window)
 })
 
 function createWindow() {
-  window = new BrowserWindow({
+  let browserWindow = new BrowserWindow({
     //show: false,
     width: 800,
     height: 600,
   })
 
-  window.loadURL(`file://${__dirname}/app/index.html`)
+  browserWindow.loadURL(`file://${__dirname}/app/index.html`)
 
-  window.webContents.openDevTools()
+  browserWindow.webContents.openDevTools()
 
-  window.on('closed', () => {
-    window = null
+  browserWindow.on('closed', () => {
+    browserWindow = null
     process.exit(0)
   })
 
-  return window
+  return browserWindow
 }
 
-function createTrayIcon() {
+function createTrayIcon(browserWindow) {
   let tray = new Tray(path.join(__dirname, 'icon.png'))
   tray.setToolTip('NPM Notifier')
-  tray.setContextMenu(createTrayMenu())
+  tray.setContextMenu(createTrayMenu(browserWindow))
   return tray
 }
 
-function createTrayMenu() {
+function createTrayMenu(browserWindow) {
   let menu = new Menu()
   menu.append(new MenuItem({
     label: 'Exit',
     click() {
-      window.close()
+      browserWindow.close()
     },
   }))
   return menu
