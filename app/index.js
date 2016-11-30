@@ -1,33 +1,57 @@
-var _ = require('lodash')
-var { ipcRenderer, shell } = require('electron')
+const _ = require('lodash')
+const { ipcRenderer } = require('electron')
 
-var NpmFollower = require('../lib/npm-follower')
+const NpmFollower = require('../lib/npm-follower')
 
-var dbUrl = 'https://skimdb.npmjs.com/registry'
-var subscribedPackages = [
-  '*angular*',
-  'eslint*',
-  '*express*',
-  'gulp*',
-  'lodash*',
-  'minimatch',
-  'mongoose',
-  'react*',
-  'request',
-  '*webpack*',
-]
+window.addEventListener('load', () => {
+  let subscribedPackages = [
+    '*angular*',
+    'eslint*',
+    '*express*',
+    'gulp*',
+    'lodash*',
+    'minimatch',
+    'mongoose',
+    'react*',
+    'request',
+    '*webpack*',
+  ]
 
-var follower = NpmFollower({ dbUrl })
+  startFollower(subscribedPackages)
 
-follower.follow(subscribedPackages)
-
-follower.onUpdate(update => {
-  console.log('npm update')
-  notifyPackageUpdate(update)
+  displaySubscribedPackages(subscribedPackages)
 })
 
-function notifyPackageUpdate(update) {
-  let body = update.name + '@' + update.version
-  console.log(body)
-  let notification = new Notification('NPM Notifier', { body })
+function startFollower(subscribedPackages) {
+  let follower = NpmFollower()
+
+  follower.follow(subscribedPackages)
+
+  follower.onUpdate(update => {
+    console.log('npm update')
+    notifyPackageUpdate(update)
+  })
+
+  function notifyPackageUpdate(update) {
+    let body = update.name + '@' + update.version
+    console.log(body)
+    let notification = new Notification('NPM Notifier', { body })
+  }
+}
+
+function displaySubscribedPackages(subscribedPackages) {
+  let container = document.getElementById('subscribed-packages')
+  let packageList = document.createElement('ul')
+
+  subscribedPackages.map(createPackageListItem)
+    .forEach(packageListItem => packageList.appendChild(packageListItem))
+
+  container.appendChild(packageList)
+}
+
+function createPackageListItem(subscribedPackage) {
+  let packageListItem = document.createElement('li')
+  let text = document.createTextNode(subscribedPackage);
+  packageListItem.appendChild(text)
+  return packageListItem
 }
