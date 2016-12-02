@@ -1,7 +1,8 @@
 const _ = require('lodash')
-const { ipcRenderer } = require('electron')
 
-const NpmFollower = require('../lib/npm-follower')
+const displaySubscribedPackages = require('./scripts/display-subscribed-packages')
+const setupForm = require('./scripts/setup-form')
+const startFollower = require('./scripts/start-follower')
 
 window.addEventListener('load', () => {
   let subscribedPackages = [
@@ -15,43 +16,16 @@ window.addEventListener('load', () => {
     'react*',
     'request',
     '*webpack*',
-  ]
+  ].sort()
 
-  startFollower(subscribedPackages)
+  let follower = startFollower(subscribedPackages)
 
   displaySubscribedPackages(subscribedPackages)
-})
 
-function startFollower(subscribedPackages) {
-  let follower = NpmFollower()
-
-  follower.follow(subscribedPackages)
-
-  follower.onUpdate(update => {
-    console.log('npm update')
-    notifyPackageUpdate(update)
+  setupForm(newPackage => {
+    follower.follow(newPackage)
+    subscribedPackages = subscribedPackages.concat(newPackage)
+      .sort()
+    displaySubscribedPackages(subscribedPackages)
   })
-
-  function notifyPackageUpdate(update) {
-    let body = update.name + '@' + update.version
-    console.log(body)
-    let notification = new Notification('NPM Notifier', { body })
-  }
-}
-
-function displaySubscribedPackages(subscribedPackages) {
-  let container = document.getElementById('subscribed-packages')
-  let packageList = document.createElement('ul')
-
-  subscribedPackages.map(createPackageListItem)
-    .forEach(packageListItem => packageList.appendChild(packageListItem))
-
-  container.appendChild(packageList)
-}
-
-function createPackageListItem(subscribedPackage) {
-  let packageListItem = document.createElement('li')
-  let text = document.createTextNode(subscribedPackage);
-  packageListItem.appendChild(text)
-  return packageListItem
-}
+})
