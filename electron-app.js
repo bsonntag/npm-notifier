@@ -1,6 +1,7 @@
 var { app, BrowserWindow, Menu, MenuItem, Tray } = require('electron')
 var path = require('path')
 
+
 app.on('ready', () => {
   let browserWindow = createWindow()
   //createTrayIcon(window)
@@ -13,7 +14,7 @@ function createWindow() {
     height: 600,
   })
 
-  browserWindow.loadURL(`file://${__dirname}/app/index.html`)
+  browserWindow.loadURL(`file://${__dirname}/build/index.html`)
 
   browserWindow.webContents.openDevTools()
 

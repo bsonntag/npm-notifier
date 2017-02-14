@@ -1,8 +1,7 @@
-var _ = require('lodash')
-var ChangesStream = require('changes-stream')
-
-const PackageUpdate = require('./package-update')
-const Subscriptions = require('./subscriptions')
+import { defaults, isArray, isFunction, isString } from 'lodash'
+import ChangesStream from 'changes-stream'
+import PackageUpdate from './package-update'
+import Subscriptions from './subscriptions'
 
 const DEFAULT_OPTIONS = {
   dbUrl: 'https://skimdb.npmjs.com/registry',
@@ -10,35 +9,35 @@ const DEFAULT_OPTIONS = {
 }
 
 function NpmFollower(options = {}) {
-  _.defaults(options, DEFAULT_OPTIONS)
+  defaults(options, DEFAULT_OPTIONS)
 
   let callbacks = []
-  let changes = new ChangesStream({
+  const changes = new ChangesStream({
     db: options.dbUrl,
     include_docs: true,
     since: options.since,
   })
-  let follower = {
+  const follower = {
     follow,
     onUpdate,
   }
-  let subscriptions = Subscriptions()
+  const subscriptions = Subscriptions()
 
   changes.on('data', change => handlePackageUpdate(PackageUpdate(change)))
 
   return follower
 
   function follow(packageName) {
-    if(_.isString(packageName)) {
+    if(isString(packageName)) {
       subscriptions.add(packageName)
     }
-    if(_.isArray(packageName)) {
+    if(isArray(packageName)) {
       packageName.forEach(name => subscriptions.add(name))
     }
   }
 
   function onUpdate(callback)  {
-    if(_.isFunction(callback)) {
+    if(isFunction(callback)) {
       callbacks = callbacks.concat(callback)
     }
   }
@@ -50,4 +49,4 @@ function NpmFollower(options = {}) {
   }
 }
 
-module.exports = NpmFollower
+export default NpmFollower

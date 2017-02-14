@@ -1,9 +1,10 @@
-var minimatch = require('minimatch')
+import minimatch from 'minimatch'
+
+const packageMatches = name => subscribedPackage => minimatch(name, subscribedPackage)
 
 function Subscriptions() {
-  let packageMatches = name => subscribedPackage => minimatch(name, subscribedPackage)
   let subscribedPackages = []
-  let subscriptions = {
+  const subscriptions = {
     add,
     isSubscribed,
   }
@@ -20,4 +21,4 @@ function Subscriptions() {
   }
 }
 
-module.exports = Subscriptions
+export default Subscriptions
