@@ -1,13 +1,19 @@
 {
-  "name": "notif-test",
+  "name": "npm-notifier",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
-    "start": "electron electron-app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "bundle": "rm -rf dist && babel --copy-files --out-dir dist src",
+    "bundle:watch": "npm run bundle -- --watch",
+    "start": "electron ."
   },
-  "keywords": [],
+  "keywords": [
+    "npm",
+    "notifier",
+    "notification",
+    "notifications"
+  ],
   "author": "Benjamim Sonntag <benjamimsonntag@gmail.com>",
   "repository": "git@github.com:bsonntag/npm-notifier.git",
   "license": "MIT",
