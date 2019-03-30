@@ -4,7 +4,11 @@ import installExtension, {
 } from 'electron-devtools-installer';
 
 function createWindow() {
-  const mainWindow = new BrowserWindow({ width: 800, height: 600 });
+  const mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    titleBarStyle: 'hidden',
+  });
 
   mainWindow.loadFile(require.resolve('./index.html'));
   mainWindow.webContents.openDevTools();
