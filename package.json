@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "changes-stream": "^2.2.0",
+    "classnames": "^2.2.6",
     "lodash": "^4.17.11",
     "minimatch": "^3.0.4",
     "react": "^16.8.6",
