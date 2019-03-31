@@ -5,17 +5,24 @@ import installExtension, {
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 800,
+    width: 400,
     height: 600,
+    show: false,
     titleBarStyle: 'hidden',
   });
 
-  mainWindow.loadFile(require.resolve('./index.html'));
-  mainWindow.webContents.openDevTools();
+  mainWindow.loadFile(require.resolve('../renderer/index.html'));
+  // mainWindow.webContents.openDevTools();
 
   installExtension(REACT_DEVELOPER_TOOLS);
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  });
 
   return mainWindow;
 }
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+  createWindow();
+});

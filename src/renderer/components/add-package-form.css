@@ -1,0 +1,17 @@
+.addPackageForm {
+  height: 100%;
+  width: 100%;
+  -webkit-app-region: none;
+}
+
+.addPackageFormInput {
+  background: transparent;
+  border: none;
+  color: inherit;
+  display: block;
+  font-size: 1rem;
+  height: 100%;
+  width: 100%;
+  outline: none;
+  -webkit-app-region: none;
+}

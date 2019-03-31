@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
+import styles from './add-package-form.css';
 
-function AddPackageForm({ addPackage }) {
+function AddPackageForm({ addPackage, inputRef }) {
   const [packageName, setPackageName] = useState('');
 
   const changePackageName = useCallback(event => {
@@ -14,23 +15,16 @@ function AddPackageForm({ addPackage }) {
   }, [addPackage, packageName, setPackageName]);
 
   return (
-    <>
-      <h3>Add a package</h3>
-
-      <form onSubmit={submit}>
-        <label>
-          Package name (or pattern)
-          <input
-            type='text'
-            name='packageName'
-            value={packageName}
-            onChange={changePackageName}
-          />
-        </label>
-
-        <button type='submit'>Add</button>
-      </form>
-    </>
+    <form className={styles.addPackageForm} onSubmit={submit}>
+      <input
+        className={styles.addPackageFormInput}
+        ref={inputRef}
+        type='text'
+        name='packageName'
+        value={packageName}
+        onChange={changePackageName}
+      />
+    </form>
   );
 }
 

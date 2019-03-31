@@ -1,0 +1,11 @@
+.list {
+}
+
+.listItem {
+  align-items: center;
+  border-bottom: 1px solid var(--separator-color);
+  cursor: default;
+  display: flex;
+  height: 36px;
+  justify-content: space-between;
+}

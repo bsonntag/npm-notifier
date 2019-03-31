@@ -1,0 +1,35 @@
+html {
+  font-family: system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.5em;
+}
+
+:root {
+  --window-background-color: #323232;
+  --text-color: white;
+  --label-text-color: #ffffffd8;
+  --control-accent-color: #007aff;
+  --control-background-color: #1e1e1e;
+  --control-color: #ffffff3f;
+  --control-text-color: #ffffffd8;
+  --keyboard-focus-indicator-color: #1aa9ff4c;
+  --separator-color: #ffffff19;
+}
+
+body {
+  background-color: var(--window-background-color);
+  color: var(--text-color);
+  margin: 0;
+  min-height: 100vh;
+  -webkit-app-region: drag;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

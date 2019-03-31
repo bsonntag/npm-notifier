@@ -1,0 +1,41 @@
+.button {
+  appearance: none;
+  background-color: var(--control-color);
+  border: none;
+  border-radius: 4px;
+  color: var(--control-text-color);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  outline: none;
+  padding: 1px 13px 2px;
+  position: relative;
+  -webkit-app-region: none;
+}
+
+.button:active {
+  background-color: var(--control-accent-color);
+}
+
+@keyframes focus-ring {
+  from {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.button:focus::before {
+  animation: focus-ring 200ms ease-out both;
+  border: 4px solid var(--keyboard-focus-indicator-color);
+  border-radius: 8px;
+  content: '';
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
+}

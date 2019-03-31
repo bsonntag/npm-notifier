@@ -1,6 +1,8 @@
+import { List, ListItem } from './list';
 import AddPackageForm from './add-package-form';
-import React, { useCallback, useEffect, useReducer } from 'react';
-import SubscribedPackages from './subscribed-packages';
+import Button from './button';
+import React, { useCallback, useEffect, useReducer, useRef } from 'react';
+import styles from './app.css';
 
 const storageKey = 'npm-notifier:packages';
 
@@ -20,6 +22,7 @@ function initializePackages(initialState) {
 }
 
 function App({ follower }) {
+  const inputRef = useRef();
   const [packages, dispatch] = useReducer(
     packagesReducer,
     [],
@@ -33,6 +36,12 @@ function App({ follower }) {
   useEffect(() => {
     follower.follow(packages);
   }, [packages]);
+
+  const focusInput = useCallback(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   const addPackage = useCallback(packageName => {
     dispatch({
@@ -50,11 +59,27 @@ function App({ follower }) {
   });
 
   return (
-    <>
-      <h1>NPM Notifier</h1>
-      <AddPackageForm addPackage={addPackage} />
-      <SubscribedPackages packages={packages} unfollow={unfollow} />
-    </>
+    <div className={styles.app}>
+      <header className={styles.appHeader}>
+        <h1 className={styles.appTitle}>Subscribed packages</h1>
+        <Button className={styles.appAddButton} onClick={focusInput}>
+          +
+        </Button>
+      </header>
+
+      <List>
+        {packages.map((packageName, index) => (
+          <ListItem key={index}>
+            {packageName}
+            <Button onClick={() => unfollow(packageName)}>Remove</Button>
+          </ListItem>
+        ))}
+
+        <ListItem>
+          <AddPackageForm addPackage={addPackage} inputRef={inputRef} />
+        </ListItem>
+      </List>
+    </div>
   );
 }
 

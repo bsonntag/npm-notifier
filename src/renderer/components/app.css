@@ -1,0 +1,27 @@
+.app {
+  padding: 32px 24px;
+}
+
+.appHeader {
+  align-items: center;
+  border-bottom: 1px solid var(--separator-color);
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding-bottom: 8px;
+}
+
+.appTitle {
+  cursor: default;
+  font-size: 28px;
+  margin: 0;
+  user-select: none;
+}
+
+.appAddButton {
+  font-size: 24px;
+  font-weight: 200;
+  line-height: 20px;
+  color: white;
+  padding: 0 10px 3px;
+}
