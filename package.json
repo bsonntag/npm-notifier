@@ -2,10 +2,12 @@
   "name": "npm-notifier",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/main.js",
+  "main": "dist/main/index.js",
   "scripts": {
-    "bundle": "rm -rf dist && babel --copy-files --out-dir dist src",
-    "bundle:watch": "npm run bundle -- --watch",
+    "bundle:main": "rm -rf dist/main && babel --copy-files --out-dir dist/main src/main",
+    "bundle:main:watch": "npm run bundle:main -- --watch",
+    "bundle:renderer": "parcel --target electron --out-dir dist/renderer --public-url ./ build src/renderer/index.html",
+    "bundle:renderer:watch": "parcel --target electron --out-dir dist/renderer --public-url ./ watch src/renderer/index.html",
     "start": "electron ."
   },
   "keywords": [
